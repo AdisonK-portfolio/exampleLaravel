@@ -6,6 +6,15 @@ import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { initializeTheme } from './composables/useAppearance';
 
+import { createVfm } from 'vue-final-modal'
+import App from './components/AppShell.vue'
+
+const app = createApp(App)
+
+/* My Imported Components */
+const vfm = createVfm()
+app.use(vfm).mount('#app')
+
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({

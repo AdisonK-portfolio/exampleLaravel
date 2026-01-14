@@ -2,7 +2,7 @@
     use App\Models\Company;
     $maxWidth = "max-w-2xl";
 ?>
-@extends('app', ['maxWidth' => $maxWidth])
+@extends('app-noInertia', ['maxWidth' => $maxWidth])
 
 @section('title')
     <div>Create Contact</div>

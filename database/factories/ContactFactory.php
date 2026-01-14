@@ -21,6 +21,7 @@ class ContactFactory extends Factory
             'firstName' => $this->faker->firstName(),
             'lastName' => $this->faker->lastName(),
             'email'=> $this->faker->email(),
+            'DOB' => $this->faker->date(),
             'company_id' => rand(1,9),
             'madeBy_id' => rand(1,9),
         ];

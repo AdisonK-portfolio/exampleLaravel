@@ -171,18 +171,22 @@
     }
 
     td {
-        @apply p-2 px-4;
+        @apply p-2 px-2 md:px-4;
     }
 
     th {
-        @apply text-left p-2 px-4;
+        @apply text-left p-2 px-2 md:px-4;
+    }
+
+    .default-text-color{
+        @apply text-gray-900
     }
 
     .submitBtn {
-        @apply p-2 px-4 bg-violet-500 text-white;
+        @apply p-2 px-4 bg-indigo-500 text-white;
     }
 
     input, select {
-        @apply border border-1 border-violet-300 m-4 p-1; 
+        @apply border border-1 border-indigo-300 m-4 p-1; 
     }
 }

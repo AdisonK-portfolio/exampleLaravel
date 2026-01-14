@@ -16,11 +16,18 @@ return new class extends Migration
             $table->string('firstName');
             $table->string('lastName');
             $table->string('email')->nullable();
+            $table->date('DOB')->nullable();
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('madeBy_id')->references('id')->on('users')->constrained()->onDelete('cascade'); //
             $table->softDeletes();
             $table->timestamps();
+
+            $table->fullText('firstName');
+            $table->fullText('lastName');
+            $table->fullText('email');
         });
+
+        
 
         // Schema::create('company_contact', function(Blueprint $table){
         //     $table->foreignId('company_id')->constrained()->onDelete('cascade');

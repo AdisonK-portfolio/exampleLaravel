@@ -25,18 +25,7 @@
             })();
         </script>
 
-        {{-- Inline style to set the HTML background color based on our theme in app.css --}}
-        <style>
-            html {
-                background-color: oklch(1 0 0);
-            }
-
-            html.dark {
-                background-color: oklch(0.145 0 0);
-            }
-        </style>
-
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name') }}</title>
 
         <link rel="icon" href="/favicon.ico" sizes="any">
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -46,30 +35,30 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
-        @vite(['resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
-        @inertiaHead
+        @vite(['resources/js/app.ts'])
         
     </head>
-    <body class="font-sans antialiased bg-indigo-50 default-text-color">
-        
-        @inertia
-        
+    <body class="font-sans antialiased bg-indigo-50 h-full default-text-color ">
+       
         <div class="bg-indigo-700 text-white">
-            <ul class="px-4 py-2 flex  space-x-2">
+            <ul class="sm:px-6 px-4 py-2 flex space-x-3">
                 <li><a href="/contacts">Contacts</a></li>
                 <li><a href="/companies">Companies</a></li>
                 <li><a href="/users">Users</a></li>
             </ul>
         </div>
 
-        <div class="p-8">
-            <h1 class="text-4xl text-bold"> @yield('title')</h1>
-        </div>
-        
-        <div class="p-8">
-            <div class="mx-auto block bg-white p-8 {{$maxWidth}}">
-                @yield('content')
+        <div class="sm:px-6 px-4">
+            <div class="mx-auto {{$maxWidth}} sm:my-6 my-4">
+                <h1 class="text-4xl text-bold"> @yield('title')</h1>
+            </div>
+            
+            <div class="">
+                <div class="mx-auto block bg-white sm:p-6 xs:p-4 p-2 {{$maxWidth}}">
+                    @yield('content')
+                </div>
             </div>
         </div>
+            
     </body>
 </html>
