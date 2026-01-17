@@ -11,6 +11,6 @@
     const app = createApp(App)
 
     const vfm = createVfm()
-    app.use(vfm).mount('#app')
+    //app.use(vfm).mount('#app')
 
 </script>

@@ -4,17 +4,10 @@ namespace App\Exports;
 
 use App\Models\Contact;
 use Maatwebsite\Excel\Events\AfterSheet;
-use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithEvents;
 use PhpOffice\PhpSpreadsheet\Style\Border;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ContactsExport implements FromQuery, WithHeadings, WithMapping, WithEvents
+class ContactsExport extends MyExport
 {
-    use Exportable;
-
     public function registerEvents(): array
     {
         return [
@@ -40,19 +33,23 @@ class ContactsExport implements FromQuery, WithHeadings, WithMapping, WithEvents
 
     public function query() {
         
-        $contacts = Contact::query()->with('company');
+        $contacts = Contact::query()->with('companies');
 
         if(request('search')){
-            // Not validating search input, because Laravel's query builder sanitizes it already (protects against SQL injection)
+            // Don't need to validate search input, because Laravel's query builder sanitizes it already (protects against SQL injection)
             $search = request('search');
 
             $contacts->where('firstName', $search)
                         ->orWhere('lastName', $search)
                         ->orWhere('email', $search)
-                        ->orWhereRelation('company', 'name','=', $search);
+                        ->orWhereRelation('companies', 'name','=', $search);
         }
 
-        return $contacts;
+        if(request('sort')){
+            
+        }
+
+        return $contacts->where('id', '<', '100');
     }
 
     public function headings(): array {
@@ -61,17 +58,26 @@ class ContactsExport implements FromQuery, WithHeadings, WithMapping, WithEvents
             'First Name',
             'Last Name',
             'Email',
-            'Company'
+            'Companies'
         ];
     }
 
     public function map($contact): array {
 
         return [
-            $contact->firstName,
-            $contact->lastName,
-            $contact->email,
-            $contact->company->name
+            'firstName' => $contact->firstName,
+            'lastName' => $contact->lastName,
+            'email' => $contact->email,
+            'companies' => $contact->companies->pluck('name')->implode(', ')
         ];
+    }
+
+    public function extraClasses(){ //$key
+        return collect([
+            'firstName' => '',
+            'lastName' => '',
+            'email' => 'bg-black',
+            'companies' => ''
+        ]); //->get($key);
     }
 }

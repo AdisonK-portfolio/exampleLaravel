@@ -23,7 +23,7 @@ export type AppPageProps<
     name: string;
     quote: { message: string; author: string };
     auth: Auth;
-    sidebarOpen: boolean;
+    // sidebarOpen: boolean;
 };
 
 export interface User {

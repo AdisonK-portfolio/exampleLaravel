@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-//use Inertia\Inertia;
+use Inertia\Inertia;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Exports\ContactsExport;
@@ -13,15 +13,29 @@ use Illuminate\Support\Facades\Session;
 class ContactController extends Controller
 {
     public function index(){
-        return view('contacts.indexContacts', ['contacts' => (new ContactsExport)->query()->paginate(5)]);
         
-        // return Inertia::render('IndexContacts', [
-        //     'contacts' => Contact::all()//paginate(5),
-        // ]);
+        /* If I didn't want to sort columns, I could use the genericIndex blade as a really simple way to display a report that can be used for multiple models without making a blade (or Vue component) for each one */
+        /*$export = (new ContactsExport);
+        return view('genericIndex', [
+            'title' => 'Contacts',
+            'route' => '/contacts',
+            'export' => $export,
+            'items' => $export->query()->paginate(5)
+        ]);*/
+
+        //dd(ContactResource::collection((new ContactsExport)->query()->paginate(5)));
+        
+        return Inertia::render('IndexContacts', [
+            'initialContacts' => ContactResource::collection((new ContactsExport)->query()->paginate(5)),
+            'styling' => (new ContactsExport)->extraClasses(),
+            // 'title' => "Contacts",
+        ]);
     }
 
     public function apiList(){
-        return ContactResource::collection(Contact::all());
+        $contacts = ContactResource::collection((new ContactsExport)->query()->paginate(5));
+        //info($contacts->first());
+        return $contacts;
     }
 
     public function export(){
@@ -41,15 +55,15 @@ class ContactController extends Controller
             'company_id' => $request->companyId,
         ]);
 
-        return route('contact.edit', $contact);
+        return redirect('contact.edit', $contact);
     }
 
-    public function edit(){
-        return view('contacts.editContact');
+    public function edit(Contact $contact){
+        return view('contacts.editContact', ['contact' => $contact]);
     }
 
-    public function update(){
-
+    public function update(ContactRequest $request, Contact $contact){
+        return redirect('contacts');
     }
 
     public function delete(){

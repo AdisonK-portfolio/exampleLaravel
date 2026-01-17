@@ -4,13 +4,13 @@
 @extends('app-noInertia', ['maxWidth' => $maxWidth])
 
 @section('title')
-    <div>Contacts</div>
+    <div>{{$title}}</div>
 @endsection
 
 @section('content')
     <div>
         <div class="px-2 md:px-4 my-2 mb-4 flex justify-between space-x-2">
-            <form action="/contacts">
+            <form action="{{$route}}">
                 @csrf
                 <div class="flex space-x-0">
                     <input type="text" name="search" placeholder="Search for Contact" class="m-0" value="{{request('search')}}">
@@ -21,23 +21,24 @@
                     </button>
                 </div>
             </form>
-            <a href="/contacts/create"><button type="button" class="submitBtn">New Contact</button></a>
+            <a href="{{$route}}/create"><button type="button" class="submitBtn">New User</button></a>
         </div>
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th class="hidden sm:table-cell">Email</th>
-                    <th>Company</th>
+                    @foreach($export->headings() as $heading)
+                        <th>{{$heading}}</th>
+                    @endforeach
                 </tr>
             </thead>
             <tbody>
                 
-                @foreach($contacts as $contact)
+                @foreach($items as $item)
                     <tr>
-                        <td>{{$contact->lastName}}, {{$contact->firstName}}</td>
-                        <td class="hidden sm:table-cell">{{$contact->email}}</td>
-                        <td>{{$contact->companies->pluck('name')->implode(', ')}}</td>
+                        <?php $styles = $export->extraClasses();?>
+                        @foreach($export->map($item) as $key => $data)
+                            <td class="{{$styles->get($key)}} ">{{$key}}{{$data}} </td>
+                        @endforeach
                     </tr>
                 @endforeach
                 
@@ -45,7 +46,7 @@
         </table>
 
         <div class="mt-4 px-2">
-            {{$contacts->onEachSide(1)->links()}}
+            {{$items->onEachSide(1)->links()}}
         </div>
         
     </div>

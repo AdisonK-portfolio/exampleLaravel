@@ -12,8 +12,14 @@ class Contact extends Model
 
     protected $guarded = [];
 
-    public function company(){
-        return $this->belongsTo(Company::class);
+    public function companies(){
+        return $this->belongsToMany(Company::class, 'employments')->using(Employment::class)->withPivot('startDate','endDate','wage');
+        //return $this->through('employments')->has('company');//->withPivot('startDate','endDate','wage');
+        //return $this->hasManyThrough(Company::class, Employment::class);
+    }
+
+    public function primaryCompany(){
+        return $this->belongsTo(Company::class, 'primaryCompany_id');
     }
 
     public function madeBy(){

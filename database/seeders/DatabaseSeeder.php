@@ -7,6 +7,8 @@ use App\Models\Company;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Contact;
 use Illuminate\Database\Seeder;
+use Database\Factories\ContactFactory;
+use Database\Factories\EmploymentFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,9 +19,16 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(10)->create();
 
-        Company::factory(10)->create();
+        Company::factory(100)->create();
 
-        Contact::factory(10)->create();
+        // For 30,000 records, it's faster to do it the way I wrote it manually (with insert)
+        //Contact::factory(30000)->create();
+
+        info('making contacts');
+        (new ContactFactory)->makeContacts();
+
+        info('making employments');
+        (new EmploymentFactory)->makeEmployments();
 
         // User::factory()->create([
         //     'name' => 'Test User',

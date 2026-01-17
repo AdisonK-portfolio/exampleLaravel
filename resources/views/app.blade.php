@@ -50,17 +50,9 @@
         @inertiaHead
         
     </head>
-    <body class="font-sans antialiased bg-indigo-50 default-text-color">
+    <body class="font-sans antialiased bg-background default-text-color">
         
-        @inertia
-        
-        <div class="bg-indigo-700 text-white">
-            <ul class="px-4 py-2 flex  space-x-2">
-                <li><a href="/contacts">Contacts</a></li>
-                <li><a href="/companies">Companies</a></li>
-                <li><a href="/users">Users</a></li>
-            </ul>
-        </div>
+        @include('layouts.navbar')
 
         <div class="p-8">
             <h1 class="text-4xl text-bold"> @yield('title')</h1>
@@ -68,7 +60,7 @@
         
         <div class="p-8">
             <div class="mx-auto block bg-white p-8 {{$maxWidth}}">
-                @yield('content')
+                @inertia
             </div>
         </div>
     </body>

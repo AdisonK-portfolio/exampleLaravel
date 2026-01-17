@@ -38,15 +38,9 @@
         @vite(['resources/js/app.ts'])
         
     </head>
-    <body class="font-sans antialiased bg-indigo-50 h-full default-text-color ">
-       
-        <div class="bg-indigo-700 text-white">
-            <ul class="sm:px-6 px-4 py-2 flex space-x-3">
-                <li><a href="/contacts">Contacts</a></li>
-                <li><a href="/companies">Companies</a></li>
-                <li><a href="/users">Users</a></li>
-            </ul>
-        </div>
+    <body class="font-sans antialiased h-full bg-background default-text-color ">
+        
+        @include('layouts.navbar')
 
         <div class="sm:px-6 px-4">
             <div class="mx-auto {{$maxWidth}} sm:my-6 my-4">
