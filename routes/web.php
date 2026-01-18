@@ -32,9 +32,6 @@ Route::get('/users/export', [UserController::class, 'export']);
 Route::resource('users', UserController::class);
 
 
-
-
-
 // APIs
 
 Route::get('/api/contacts', [ContactController::class, 'apiList']);

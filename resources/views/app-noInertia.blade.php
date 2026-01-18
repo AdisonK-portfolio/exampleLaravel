@@ -1,5 +1,4 @@
 <?php 
-    //$maxWidth = $maxWidth ?? '';
     if(!isset($maxWidth)){
         $maxWidth = '';
     }
@@ -38,17 +37,17 @@
         @vite(['resources/js/app.ts'])
         
     </head>
-    <body class="font-sans antialiased h-full bg-background default-text-color ">
+    <body class="font-sans antialiased h-screen bg-background default-text-color ">
         
         @include('layouts.navbar')
 
         <div class="sm:px-6 px-4">
-            <div class="mx-auto {{$maxWidth}} sm:my-6 my-4">
+            <div class="mx-auto {{ $maxWidth }} sm:my-6 my-4">
                 <h1 class="text-4xl text-bold"> @yield('title')</h1>
             </div>
             
             <div class="">
-                <div class="mx-auto block bg-white sm:p-6 xs:p-4 p-2 {{$maxWidth}}">
+                <div class="mx-auto block bg-white sm:p-6 xs:p-4 p-2 {{ $maxWidth }}">
                     @yield('content')
                 </div>
             </div>

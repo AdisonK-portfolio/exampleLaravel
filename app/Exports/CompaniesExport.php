@@ -8,8 +8,7 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 
 class CompaniesExport extends MyExport
 {
-    public function registerEvents(): array
-    {
+    public function registerEvents(): array {
         return [
             AfterSheet::class => function(AfterSheet $event) {
                 $event->sheet->getDelegate()
@@ -56,8 +55,8 @@ class CompaniesExport extends MyExport
         ];
     }
 
-    public function extraClasses()
-    {
+    /* To set the classes on columns if using a generic index page */
+    public function extraClasses() {
         return collect([
             'name' => 'bg-black'
         ]);

@@ -23,19 +23,14 @@ class ContactController extends Controller
             'items' => $export->query()->paginate(5)
         ]);*/
 
-        //dd(ContactResource::collection((new ContactsExport)->query()->paginate(5)));
-        
         return Inertia::render('IndexContacts', [
-            'initialContacts' => ContactResource::collection((new ContactsExport)->query()->paginate(5)),
             'styling' => (new ContactsExport)->extraClasses(),
-            // 'title' => "Contacts",
+            'title' => "Contacts",
         ]);
     }
 
     public function apiList(){
-        $contacts = ContactResource::collection((new ContactsExport)->query()->paginate(5));
-        //info($contacts->first());
-        return $contacts;
+        return ContactResource::collection((new ContactsExport)->query()->paginate(5));
     }
 
     public function export(){

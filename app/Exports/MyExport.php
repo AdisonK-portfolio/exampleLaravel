@@ -12,8 +12,7 @@ class MyExport implements FromQuery, WithHeadings, WithMapping, WithEvents
 {
     use Exportable;
 
-    public function registerEvents(): array
-    {
+    public function registerEvents(): array {
         return [];
     }
 

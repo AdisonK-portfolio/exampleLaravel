@@ -26,7 +26,7 @@
             <label for="companyId">Company</label>
             <select class="input">
                 @foreach(Company::all() as $company)
-                    <option value="{{$company->id}}">{{$company->name}}</option>
+                    <option value="{{ $company->id }}">{{ $company->name }}</option>
                 @endforeach
             </select>
        </div>

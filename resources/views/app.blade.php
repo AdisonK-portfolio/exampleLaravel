@@ -1,5 +1,4 @@
 <?php 
-    //$maxWidth = $maxWidth ?? '';
     if(!isset($maxWidth)){
         $maxWidth = '';
     }
@@ -50,18 +49,11 @@
         @inertiaHead
         
     </head>
-    <body class="font-sans antialiased bg-background default-text-color">
+    <body class="font-sans antialiased h-screen bg-background default-text-color">
         
         @include('layouts.navbar')
 
-        <div class="p-8">
-            <h1 class="text-4xl text-bold"> @yield('title')</h1>
-        </div>
-        
-        <div class="p-8">
-            <div class="mx-auto block bg-white p-8 {{$maxWidth}}">
-                @inertia
-            </div>
-        </div>
+        @inertia
+           
     </body>
 </html>

@@ -11,7 +11,9 @@ use App\Http\Resources\CompanyResource;
 class CompanyController extends Controller
 {
     public function index(){
-        return view('companies.indexCompanies', ['companies' => (new CompaniesExport)->query()->paginate(5)]); //->toResourceCollection()
+        
+        return view('companies.indexCompanies', ['companies' => CompanyResource::collection((new CompaniesExport)->query()->paginate(5))]); 
+        /* I could use my genericIndex blade instead if I wanted to */
         // $export = (new CompaniesExport);
         // return view('genericIndex', [
         //     'title' => 'Companies',

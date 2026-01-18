@@ -14,8 +14,6 @@ class Contact extends Model
 
     public function companies(){
         return $this->belongsToMany(Company::class, 'employments')->using(Employment::class)->withPivot('startDate','endDate','wage');
-        //return $this->through('employments')->has('company');//->withPivot('startDate','endDate','wage');
-        //return $this->hasManyThrough(Company::class, Employment::class);
     }
 
     public function primaryCompany(){

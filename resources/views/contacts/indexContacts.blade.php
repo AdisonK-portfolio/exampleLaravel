@@ -13,8 +13,8 @@
             <form action="/contacts">
                 @csrf
                 <div class="flex space-x-0">
-                    <input type="text" name="search" placeholder="Search for Contact" class="m-0" value="{{request('search')}}">
-                    <button class="bg-indigo-500 p-2">
+                    <input type="text" name="search" placeholder="Search for Contact" class="m-0" value="{{ request('search') }}">
+                    <button class="bg-primary p-2">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                         </svg>
@@ -35,9 +35,9 @@
                 
                 @foreach($contacts as $contact)
                     <tr>
-                        <td>{{$contact->lastName}}, {{$contact->firstName}}</td>
-                        <td class="hidden sm:table-cell">{{$contact->email}}</td>
-                        <td>{{$contact->companies->pluck('name')->implode(', ')}}</td>
+                        <td>{{ $contact->lastName }}, {{ $contact->firstName }}</td>
+                        <td class="hidden sm:table-cell">{{ $contact->email }}</td>
+                        <td>{{ $contact->companies->pluck('name')->implode(', ') }}</td>
                     </tr>
                 @endforeach
                 
@@ -45,7 +45,7 @@
         </table>
 
         <div class="mt-4 px-2">
-            {{$contacts->onEachSide(1)->links()}}
+            {{ $contacts->onEachSide(1)->links() }}
         </div>
         
     </div>

@@ -192,7 +192,7 @@
     }
 
     .submitBtn {
-        @apply p-2 px-4 bg-indigo-500 text-white;
+        @apply p-2 px-4 bg-primary text-white;
     }
 
     input, select {

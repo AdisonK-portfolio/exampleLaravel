@@ -1,33 +1,19 @@
 import '../css/app.css';
-
-/* For non-inertia parts of site and components used in other vue components */
 import { createApp } from 'vue';
-// import { Bootstrap4Pagination } from 'laravel-vue-pagination';
-// import { Bootstrap5Pagination } from 'laravel-vue-pagination';
-// import { TailwindPagination } from 'laravel-vue-pagination';
-
-// //import IndexContacts from './pages/IndexContacts.vue';
-
-// const nonInertiaApp = createApp({});
-// nonInertiaApp.component("tailwind-pagination", TailwindPagination);
-
-// nonInertiaApp.mount('#app'); //const mountedApp = app.mount('#app');
-
-
-
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { h } from 'vue';
 import { initializeTheme } from './composables/useAppearance';
 
-import { createVfm } from 'vue-final-modal';
+// import { createVfm } from 'vue-final-modal';
 import App from './components/AppShell.vue';
 import { TailwindPagination } from 'laravel-vue-pagination';
 
 const app = createApp(App);
 /* My Imported Components */
-const vfm = createVfm()
+// for later
+//const vfm = createVfm()
 //app.use(vfm).mount('#app')
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';

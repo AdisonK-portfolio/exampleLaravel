@@ -10,6 +10,7 @@ use App\Http\Requests\UserRequest;
 class UserController extends Controller
 {
     public function index(){
+        
         $export = (new UsersExport);
         return view('genericIndex', [
             'title' => 'Users',
