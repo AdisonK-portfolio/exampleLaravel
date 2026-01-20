@@ -16,7 +16,7 @@ class EmploymentFactory extends Factory
     public function makeEmployments(){
         info('making employments');
         $lastCompanyId = Company::max('id');
-        info('last company id:' . $lastCompanyId);
+        
         $employments = collect();
         foreach(Contact::all() as $c){
             $employments->push(Employment::make([

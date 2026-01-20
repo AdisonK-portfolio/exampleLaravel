@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('lastName');
             $table->string('email')->nullable();
             $table->date('DOB')->nullable();
-            $table->foreignId('primaryCompany_id')->references('id')->on('companies')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('primaryCompany_id')->nullable()->references('id')->on('companies')->constrained()->onDelete('cascade');
             $table->foreignId('madeBy_id')->references('id')->on('users')->constrained()->onDelete('cascade'); //
             $table->softDeletes();
             $table->timestamps();
