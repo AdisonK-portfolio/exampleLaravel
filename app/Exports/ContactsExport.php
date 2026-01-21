@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Contact;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
@@ -32,7 +33,11 @@ class ContactsExport extends MyExport
 
     public function query() {
         
-        $contacts = Contact::query()->with('companies');
+        $contacts = Contact::query();
+
+        $contacts = DB::table('contacts');
+        $contacts->leftJoin('companies AS primaryCompanies', 'primaryCompanies.id', '=', 'contacts.primaryCompany_id')
+        ->select('contacts.*', 'primaryCompanies.name AS primaryCompanyName');
 
         if(request('search')){
             // Don't need to validate search input, because Laravel's query builder sanitizes it already (protects against SQL injection)
@@ -41,14 +46,12 @@ class ContactsExport extends MyExport
             $contacts->where('firstName', $search)
                         ->orWhere('lastName', $search)
                         ->orWhere('email', $search)
-                        ->orWhereRelation('companies', 'name','=', $search);
+                        ->orWhere('primaryCompanies.name', $search);
         }
 
-        if(request('sort')){
-            
-        }
+        $contacts->orderBy(request('sort', 'id'), 'asc');
 
-        return $contacts->where('id', '<', '100');
+        return $contacts;
     }
 
     public function headings(): array {
@@ -73,6 +76,7 @@ class ContactsExport extends MyExport
 
     /* To set the classes on columns if using a generic index page */
     public function extraClasses(){
+        
         return collect([
             'firstName' => '',
             'lastName' => '',

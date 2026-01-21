@@ -24,7 +24,7 @@ class ContactController extends Controller
         ]);*/
 
         return Inertia::render('IndexContacts', [
-            'styling' => (new ContactsExport)->extraClasses(),
+            'styling' => (new ContactsExport)->extraClasses()->toArray(),
             'title' => "Contacts",
         ]);
     }
