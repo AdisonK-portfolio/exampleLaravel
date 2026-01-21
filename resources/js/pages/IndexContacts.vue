@@ -22,25 +22,29 @@
                         <tr>
                             <!-- Playing with the idea of making this dynamic- could limit things later though -->
                             <!-- <th v-for="[col, style] in Object.entries(this.styling)" :class="'justify-between ' + style" @click="sort(col)">{{ col }}</th> -->
-                            <th :class="'justify-between' + styling['firstName']" @click="sort('firstName')">
-                                <div>First Name </div>
-                                <ChevronUp class="ml-auto size-4" v-show="sortCol == 'firstName' && sortDir == 'asc'"/>
-                                <ChevronDown class="ml-auto size-4" v-show="sortCol == 'firstName' && sortDir == 'desc'"/>
+                            <th :class="'justify-between ' + styling['firstName']" @click="sort('firstName')">
+                                <div class="flex space-x-1">
+                                    <div>First Name </div>
+                                    <Chevrons name="firstName" :sort-col="sortCol":sort-dir="sortDir"> </Chevrons>
+                                </div>
                             </th>
-                            <th :class="'justify-between' + styling['lastName']" @click="sort('lastName')">
-                                <div>Last Name </div>
-                                <ChevronUp class="ml-auto size-4" v-show="sortCol == 'lastName' && sortDir == 'asc'"/>
-                                <ChevronDown class="ml-auto size-4" v-show="sortCol == 'lastName' && sortDir == 'desc'"/>
+                            <th :class="'justify-between ' + styling['lastName']" @click="sort('lastName')">
+                                <div class="flex space-x-1">
+                                    <div>Last Name </div>
+                                    <Chevrons name="lastName" :sort-col="sortCol":sort-dir="sortDir"> </Chevrons>
+                                </div>
                             </th>
-                            <th :class="'justify-between' + styling['email']" @click="sort('email')">
-                                <div>Email </div>
-                                <ChevronUp class="ml-auto size-4" v-show="sortCol == 'email' && sortDir == 'asc'"/>
-                                <ChevronDown class="ml-auto size-4" v-show="sortCol == 'email' && sortDir == 'desc'"/>
+                            <th :class="'justify-between ' + styling['email']" @click="sort('email')">
+                                <div class="flex space-x-1">
+                                    <div>Email </div>
+                                    <Chevrons name="email" :sort-col="sortCol":sort-dir="sortDir"> </Chevrons>
+                                </div>
                             </th>
-                            <th :class="'justify-between' + styling['primaryCompany']" @click="sort('primaryCompany')">
-                                <div>Primary Company </div>
-                                <ChevronUp class="ml-auto size-4" v-show="sortCol == 'primaryCompany' && sortDir == 'asc'"/>
-                                <ChevronDown class="ml-auto size-4" v-show="sortCol == 'primaryCompany' && sortDir == 'desc'"/>
+                            <th :class="'justify-between ' + styling['primaryCompany']" @click="sort('primaryCompanies.name')">
+                                <div class="flex space-x-1">
+                                    <div>Primary Company </div>
+                                    <Chevrons name="primaryCompanies.name" :sort-col="sortCol":sort-dir="sortDir"> </Chevrons> 
+                                </div>
                             </th>
                         </tr>
                     </thead>
@@ -68,86 +72,73 @@
         </div>
     </div>
 </template>
-<script>
-import axios from 'axios';
+<script setup>
+    import { ref, onMounted } from 'vue'
+    import axios from 'axios';
     import { TailwindPagination } from 'laravel-vue-pagination';
-    import { ChevronDown, ChevronUp } from 'lucide-vue-next';
+    import Chevrons from './Chevrons.vue';
 
-    export default {
-
-        components: {
-            TailwindPagination,
-            ChevronDown,
-            ChevronUp
+    const props = defineProps({
+        styling:{
+            required: true,
         },
-        
-        props: {
-            styling:{
-                required: true,
-            },
-            title:{
-                required: true,
-            }
-        },
-
-        data(){
-            return {
-                'contacts': {},
-                'search': null,
-                'sortCol': '',
-                'sortDir': 'desc',
-            }
-        },
-        mounted(){
-            console.log('before start:');
-            console.log(this.contacts);
-            this.getContacts();
-            
-            //console.log(this.contacts[0].forEach())
-            // <td v-for="col in headings" :class="styling[col]">{{ contact.${col} }}</td>
-            // console.log('styling');
-            // console.log(this.styling);
-        },
-
-        methods: {
-            
-            getContacts(page = 1){
-                //let page = this.contacts.meta.page;
-                let url = `/api/contacts?page=${page}`;
-                if(this.search){
-                    url = url + '&search=' + this.search;
-                    console.log('searching for:' + this.search);
-                }
-                axios.get(url)
-                    .then(response => {
-                        console.log("response data");
-                        console.log(response.data);
-                        this.contacts = response.data;
-                        // Object.entries(this.contacts.data[0]).forEach(([key, value]) => {
-                        //     console.log(key + ' value: ' + value);
-                        // });
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-            },
-            sort(event){
-                console.log('sorting by ' + event);
-                let page = this.contacts.meta.page;
-                let url = '/api/contacts?page=' + page + '&sort=' + event;
-                if(this.search){
-                    url = url + '&search=' + this.search;
-                }
-                axios.get(url)
-                    .then(response => {
-                        console.log("response data");
-                        console.log(response.data);
-                        this.contacts = response.data;
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-            }
+        title:{
+            required: true,
         }
+    })
+        
+    const contacts = ref({});
+    const search = ref(null);
+    const sortCol = ref('');
+    const sortDir = ref('desc');
+        
+    function getContacts(page = 1){
+        //let page = this.contacts.meta.page;
+        let url = `/api/contacts?page=${page}`;
+        if(search.value){
+            url = url + '&search=' + search.value;
+            console.log('searching for:' + search.value);
+        }
+        axios.get(url)
+            .then(response => {
+                console.log("response data");
+                console.log(response.data);
+                contacts.value = response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
+
+    function sort(event){
+        console.log('sorting by ' + event);
+        let page = contacts.value.meta.page;
+        sortCol.value = event;
+        sortDir.value = (sortDir.value == 'desc' ? 'asc' : 'desc');
+        let url = '/api/contacts?page=' + page + '&sort=' + sortCol.value + '&dir=' + sortDir.value;
+        console.log('sort url: ' + url);
+        
+        if(search.value){
+            url = url + '&search=' + search.value;
+        }
+
+        axios.get(url)
+            .then(response => {
+                console.log("response data");
+                console.log(response.data);
+                contacts.value = response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    onMounted(() => {
+        console.log('before start:');
+        console.log(contacts.value);
+        getContacts();
+        
+        // console.log('styling');
+        // console.log(this.styling);
+    })
 </script>

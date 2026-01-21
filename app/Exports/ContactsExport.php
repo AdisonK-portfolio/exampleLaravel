@@ -49,7 +49,7 @@ class ContactsExport extends MyExport
                         ->orWhere('primaryCompanies.name', $search);
         }
 
-        $contacts->orderBy(request('sort', 'id'), 'asc');
+        $contacts->orderBy(request('sort', 'id'), request('dir', 'desc'));
 
         return $contacts;
     }
