@@ -22,8 +22,15 @@ Route::get('dashboard', function () {
 
 require __DIR__.'/settings.php';
 
-Route::get('/contacts/export', [ContactController::class, 'export']);
-Route::resource('contacts', ContactController::class);
+// By splitting up the routes (instead of Route::resources()) I can name the routes
+Route::get('/contacts', [ContactController::class, 'index'])->name('contacts');
+Route::get('/contacts/export', [ContactController::class, 'export'])->name('contacts.export');
+Route::get('/contact/create', [ContactController::class, 'create'])->name('contact.create');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::get('/contact/{contact}/edit', [ContactController::class, 'edit'])->name('contact.edit');
+Route::patch('/contact/{contact}', [ContactController::class, 'update'])->name('contact.update');
+
+//Route::resource('contacts', ContactController::class);
 
 Route::get('/companies/export', [CompanyController::class, 'export']);
 Route::resource('companies', CompanyController::class);

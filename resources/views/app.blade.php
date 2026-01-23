@@ -49,7 +49,7 @@
         @inertiaHead
         
     </head>
-    <body class="font-sans antialiased h-screen bg-background default-text-color">
+    <body class="font-sans antialiased min-h-screen overflow-y-auto bg-background default-text-color">
         
         @include('layouts.navbar')
 

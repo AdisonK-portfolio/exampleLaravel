@@ -8,7 +8,8 @@ class ContactRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return false;
+        // todo: add validation
+        return true;
     }
 
     public function rules(): array
@@ -17,7 +18,7 @@ class ContactRequest extends FormRequest
             'firstName' => ['required', 'string', 'max:36'],
             'lastName' => ['required', 'string','max:40'],
             'email' => ['required', 'email'],
-            'company_id' => ['nullable', 'exists:companies,id'],
+            'primaryCompany_id' => ['required', 'exists:companies,id'],
         ];
     }
 }

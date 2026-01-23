@@ -14,7 +14,7 @@ class ContactController extends Controller
 {
     public function index(){
         
-        /* If I didn't want to sort columns, I could use the genericIndex blade as a really simple way to display a report that can be used for multiple models without making a blade (or Vue component) for each one */
+        /* If I didn't want to sort columns, I could use a blade contacts index page (like indexContacts.blade.php) or the genericIndex blade as a really simple way to display a report that can be used for multiple models without making a blade (or Vue component) for each one */
         /*$export = (new ContactsExport);
         return view('genericIndex', [
             'title' => 'Contacts',
@@ -47,18 +47,24 @@ class ContactController extends Controller
             'lastName' => $request->lastName,
             'email' => $request->email,
             'madeBy_id' => 1, // todo - auth()->user()->id
-            'company_id' => $request->companyId,
+            'primaryCompany_id' => $request->primaryCompany_id,
         ]);
 
-        return redirect('contact.edit', $contact);
+        return redirect()->route('contacts');
     }
 
     public function edit(Contact $contact){
         return view('contacts.editContact', ['contact' => $contact]);
     }
 
-    public function update(ContactRequest $request, Contact $contact){
-        return redirect('contacts');
+    public function update(ContactRequest $request, Contact $contact){ //
+        $contact->update([
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            'email' => $request->email,
+            'primaryCompany_id' => $request->primaryCompany_id,
+        ]);
+        return redirect()->route('contacts');
     }
 
     public function delete(){

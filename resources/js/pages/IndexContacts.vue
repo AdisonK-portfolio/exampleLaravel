@@ -6,18 +6,24 @@
         
         <div class="">
             <div class="mx-auto block bg-white sm:p-6 xs:p-4 p-2  max-w-4xl">
-                <div class="px-2 md:px-4 my-2 mb-4 flex justify-between space-x-2">
+                <div class="px-2 md:px-4 my-2 sm:mb-4 mb-2  sm:flex sm:justify-between space-x-2 space-y-2">
                     <div class="flex space-x-0">
-                        <input type="text" name="search" placeholder="Search for Contact" class="m-0" v-model="search">
+                        <input type="text" name="search" placeholder="Search for Contact" class="m-0" v-model="search" @keyup.enter="getContacts">
                         <button class="bg-primary p-2" @click="getContacts">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                             </svg>
                         </button>
                     </div>
-                    <a href="/contacts/create"><button type="button" class="submitBtn">New Contact</button></a>
+                    <div class="flex">
+                        <a href="/contacts/export" class="p-2 sm:px-4" title="Export Contacts"><button>
+                            <Download /> 
+                        </button></a>
+                        <a href="/contact/create"><button type="button" class="submitBtn">New Contact</button></a>
+                        
+                    </div>
                 </div>
-                <table class="table">
+                <table class="table w-full">
                     <thead>
                         <tr>
                             <!-- Playing with the idea of making this dynamic- could limit things later though -->
@@ -51,22 +57,28 @@
                     <tbody>
                         <tr v-for="contact in contacts.data">
                             
-                            <td :class="styling['firstName']">{{ contact.firstName }}</td>
-                            <td :class="styling['lastName']">{{ contact.lastName }}</td>
+                            <td :class="styling['firstName']">
+                                <a :href="'/contact/' + contact.id + '/edit'">{{ contact.firstName }}</a>
+                            </td>
+                            <td :class="styling['lastName']">
+                                <a :href="'/contact/' + contact.id + '/edit'">{{ contact.lastName }}</a>
+                            </td>
                             <td :class="styling['email']">{{ contact.email }}</td>
                             <td :class="styling['primaryCompanyName']">{{ contact.primaryCompanyName }}</td> 
                         </tr>
                     </tbody>
                 </table>
-                <div class="flex justify-between xs:pt-6 pt-4">
-                    <div class="pt-2">
+                <div class="flex justify-between xs:py-4 py-2 px-2 md:px-4">
+                    <div class="pt-2 hidden sm:block">
                         <span v-if="contacts.meta">Showing {{ contacts.meta.from }} to {{ contacts.meta.to }} of {{  contacts.meta.total }}</span>
                     </div>
-                    <TailwindPagination
-                        :data="contacts"
-                        :limit="1"
-                        @pagination-change-page="getContacts"
-                    />
+                    <div>
+                        <TailwindPagination
+                            :data="contacts"
+                            :limit="1"
+                            @pagination-change-page="getContacts"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,6 +89,7 @@
     import axios from 'axios';
     import { TailwindPagination } from 'laravel-vue-pagination';
     import Chevrons from './Chevrons.vue';
+    import { Download } from 'lucide-vue-next';
 
     const props = defineProps({
         styling:{

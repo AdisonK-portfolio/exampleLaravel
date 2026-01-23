@@ -60,7 +60,8 @@ class ContactsExport extends MyExport
             'First Name',
             'Last Name',
             'Email',
-            'Companies'
+            'Primary Company',
+            
         ];
     }
 
@@ -70,7 +71,7 @@ class ContactsExport extends MyExport
             'firstName' => $contact->firstName,
             'lastName' => $contact->lastName,
             'email' => $contact->email,
-            'companies' => $contact->companies->pluck('name')->implode(', ')
+            'primaryCompanyName' => $contact->primaryCompanyName
         ];
     }
 

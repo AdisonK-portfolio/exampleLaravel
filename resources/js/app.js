@@ -1,9 +1,21 @@
-import EditContact from './components/EditContact.vue';
+import '../css/app.css';
 import { createApp } from 'vue';
 
-const app = createApp({});
+import { initializeTheme } from './composables/useAppearance';
 
-app.component('edit-contact', EditContact);
+// import { createVfm } from 'vue-final-modal';
+import App from './components/AppShell.vue';
+import { TailwindPagination } from 'laravel-vue-pagination';
 
-// Mount the app to an element in your Blade file
-//app.mount('#app');
+const app = createApp(App);
+/* My Imported Components */
+// for later
+//const vfm = createVfm()
+//app.use(vfm).mount('#app')
+
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+
+
+// This will set light / dark mode on page load...
+initializeTheme();
+
