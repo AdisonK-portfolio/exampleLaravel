@@ -24,8 +24,8 @@ class ContactController extends Controller
         ]);*/
 
         return Inertia::render('IndexContacts', [
-            'styling' => (new ContactsExport)->extraClasses()->toArray(),
             'title' => "Contacts",
+            //'styling' => (new ContactsExport)->extraClasses()->toArray(), // if using more dynamic inputs, could use styling to instruct classes on th and td
         ]);
     }
 
@@ -35,6 +35,11 @@ class ContactController extends Controller
 
     public function export(){
         return (new ContactsExport)->download('contacts.xlsx');
+    }
+
+    public function charts(){
+        //import vue-chartjs, make a page to use it, show chart of how many contacts with each company
+        return ;
     }
 
     public function create(){

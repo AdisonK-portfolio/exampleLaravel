@@ -11,7 +11,7 @@ To that end, I have gone down two routes for designing for this project- one is 
 - database/migrations/[*/2025_11_19_072939_create_contacts_table] 
     - MySQL schema
 - resources/pages/IndexContacts 
-    - (Vue component, sorting/filtering data)
+    - Vue component, sorting/filtering data, responsive screen size design
 
 Index Pages:
 

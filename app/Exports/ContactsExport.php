@@ -37,16 +37,22 @@ class ContactsExport extends MyExport
 
         $contacts = DB::table('contacts');
         $contacts->leftJoin('companies AS primaryCompanies', 'primaryCompanies.id', '=', 'contacts.primaryCompany_id')
-        ->select('contacts.*', 'primaryCompanies.name AS primaryCompanyName');
+                    ->leftJoin('addresses', function($join){
+                        $join->on("addresses.addressable_id", "=", "contacts.id")
+                                ->where("addresses.addressable_type", "=", Contact::class);
+                    })
+                    ->select('contacts.*', 'primaryCompanies.name AS primaryCompanyName','addresses.address1', 'addresses.address2','addresses.city','addresses.state','addresses.zip',);
 
         if(request('search')){
             // Don't need to validate search input, because Laravel's query builder sanitizes it already (protects against SQL injection)
             $search = request('search');
 
-            $contacts->where('firstName', $search)
-                        ->orWhere('lastName', $search)
-                        ->orWhere('email', $search)
-                        ->orWhere('primaryCompanies.name', $search);
+            $contacts->where('firstName', 'LIKE', '%' . $search . '%')
+                        ->orWhere('lastName', 'LIKE', '%' . $search . '%')
+                        ->orWhere('email', 'LIKE', '%' . $search . '%')
+                        ->orWhere('primaryCompanies.name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('address1', 'LIKE', '%' . $search . '%')
+                        ->orWhere('city', 'LIKE', '%' . $search . '%');
         }
 
         $contacts->orderBy(request('sort', 'id'), request('dir', 'desc'));
@@ -61,28 +67,42 @@ class ContactsExport extends MyExport
             'Last Name',
             'Email',
             'Primary Company',
-            
+            'Address1',
+            'Address2',
+            'City',
+            'State',
+            'Zip'
         ];
     }
 
     public function map($contact): array {
 
         return [
-            'firstName' => $contact->firstName,
-            'lastName' => $contact->lastName,
-            'email' => $contact->email,
-            'primaryCompanyName' => $contact->primaryCompanyName
+            $contact->firstName,
+            $contact->lastName,
+            $contact->email,
+            $contact->primaryCompanyName,
+            $contact->address1,
+            $contact->address2,
+            $contact->city,
+            $contact->state,
+            $contact->zip,
         ];
     }
 
-    /* To set the classes on columns if using a generic index page */
+    /* To set the classes on columns in some possible uses of a generic index page */
     public function extraClasses(){
         
         return collect([
             'firstName' => '',
             'lastName' => '',
             'email' => 'hidden sm:table-cell',
-            'companies' => ''
+            'primaryCompany' => '',
+            'address1' => '',
+            'address2' => '',
+            'city' => '',
+            'state' => '',
+            'zip' => '',
         ]);
     }
 }

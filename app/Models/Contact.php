@@ -23,4 +23,8 @@ class Contact extends Model
     public function madeBy(){
         return $this->belongsTo(User::class, 'madeBy_id');
     }
+
+    public function addresses(){
+        return $this->morphMany(Address::class, 'addressable');
+    }
 }

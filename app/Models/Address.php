@@ -9,4 +9,8 @@ class Address extends Model
 {
     /** @use HasFactory<\Database\Factories\AddressFactory> */
     use HasFactory;
+
+    public function addressable(){
+        return $this->morphTo();
+    }
 }

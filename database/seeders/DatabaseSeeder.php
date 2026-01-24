@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Company;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Contact;
+use Database\Factories\AddressFactory;
 use Illuminate\Database\Seeder;
 use Database\Factories\ContactFactory;
 use Database\Factories\EmploymentFactory;
@@ -21,8 +22,8 @@ class DatabaseSeeder extends Seeder
 
         Company::factory(100)->create();
 
-        // For 30,000 records, it's faster to do it the way I wrote it manually (with insert)
-        //Contact::factory(30000)->create();
+        // For 20,000 records, it's faster to do it the way I wrote it (with insert) than to use the factory definition
+        // Contact::factory(30000)->create();
 
         info('making contacts');
         (new ContactFactory)->makeContacts();
@@ -30,9 +31,6 @@ class DatabaseSeeder extends Seeder
         info('making employments');
         (new EmploymentFactory)->makeEmployments();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        (new AddressFactory)->addAddresses();
     }
 }

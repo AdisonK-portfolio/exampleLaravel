@@ -26,7 +26,7 @@ class ContactFactory extends Factory
         
         $contacts = collect();
         $maxCompanyId = Company::max('id');
-        for($i = 0; $i < 30000; $i++){
+        for($i = 0; $i < 20000; $i++){
             $contacts->push(
                 Contact::make([
                     'firstName' => $this->faker->firstName(),
@@ -37,11 +37,11 @@ class ContactFactory extends Factory
                     'madeBy_id' => rand(1,9),
                 ])
             );
+        }
 
-            if($contacts->count() > 1000){
-                Contact::insert($contacts->toArray());
-                $contacts = collect();
-            }
+        // Since there are a lot of records, adding them in chunks
+        foreach($contacts->chunk(1000) as $chunk){
+            Contact::insert($chunk->toArray());
         }
     }
 }

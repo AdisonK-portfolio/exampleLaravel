@@ -1,5 +1,5 @@
 <?php 
-    $maxWidth = "max-w-4xl";
+    $maxWidth = "max-w-7xl";
 ?>
 @extends('app-noInertia', ['maxWidth' => $maxWidth])
 

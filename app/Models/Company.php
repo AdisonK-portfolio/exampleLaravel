@@ -13,4 +13,7 @@ class Company extends Model
         return $this->belongsToMany(Contact::class, 'employments')->using(Employment::class)->withPivot('startDate','endDate','wage');
     }
 
+    public function addresses(){
+        return $this->morphMany(Address::class, 'addressable');
+    }
 }
