@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="mx-auto">
-        <form action="{{ route('contact.update', $contact) }}" method="POST">
+        <form action="{{ route('contacts.update', $contact) }}" method="POST">
             @csrf
             @method('PATCH')
             @include('contacts.contactForm', $contact)

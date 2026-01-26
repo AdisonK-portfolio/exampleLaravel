@@ -42,6 +42,10 @@ class ContactController extends Controller
         return ;
     }
 
+    public function show(){
+        // to do
+    }
+
     public function create(){
         return view('contacts.createContact');
     }
@@ -54,8 +58,8 @@ class ContactController extends Controller
             'madeBy_id' => 1, // todo - auth()->user()->id
             'primaryCompany_id' => $request->primaryCompany_id,
         ]);
-
-        return redirect()->route('contacts');
+        
+        return redirect()->route('contacts.index');
     }
 
     public function edit(Contact $contact){
@@ -69,10 +73,12 @@ class ContactController extends Controller
             'email' => $request->email,
             'primaryCompany_id' => $request->primaryCompany_id,
         ]);
-        return redirect()->route('contacts');
+        return redirect()->route('contacts.index');
     }
 
-    public function delete(){
+    public function destroy(Contact $contact){
+        $contact->delete();
 
+        return;
     }
 }

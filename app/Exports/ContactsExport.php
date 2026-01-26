@@ -35,7 +35,6 @@ class ContactsExport extends MyExport
         
         $contacts = Contact::query();
 
-        $contacts = DB::table('contacts');
         $contacts->leftJoin('companies AS primaryCompanies', 'primaryCompanies.id', '=', 'contacts.primaryCompany_id')
                     ->leftJoin('addresses', function($join){
                         $join->on("addresses.addressable_id", "=", "contacts.id")
@@ -63,6 +62,7 @@ class ContactsExport extends MyExport
     public function headings(): array {
 
         return [
+            'ID',
             'First Name',
             'Last Name',
             'Email',
@@ -78,6 +78,7 @@ class ContactsExport extends MyExport
     public function map($contact): array {
 
         return [
+            $contact->id,
             $contact->firstName,
             $contact->lastName,
             $contact->email,

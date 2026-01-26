@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="mx-auto">
-       <form action="{{ route('contact.store') }}" method="POST">
+       <form action="{{ route('contacts.store') }}" method="POST">
             @csrf
             @include('contacts.contactForm')
        </form>
