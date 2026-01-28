@@ -16,13 +16,17 @@ Route::get('/', [ContactController::class, 'index']
 //}
 )->name('home');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('dashboard', function(){
+    return redirect()->route('contacts.index');
+});
 
 require __DIR__.'/settings.php';
 
-// Route::group()->middleware('auth')
+Route::middleware('auth')->group(function(){
     
     // Exports must be before resource- otherwise the system goes to the 'show' method, not 'export'
     Route::get('/contacts/export', [ContactController::class, 'export'])->name('contacts.export');
@@ -38,3 +42,4 @@ require __DIR__.'/settings.php';
     // APIs
 
     Route::get('/api/contacts', [ContactController::class, 'apiList']);
+});

@@ -9,12 +9,24 @@ use App\Exports\ContactsExport;
 use App\Http\Requests\ContactRequest;
 use App\Http\Resources\ContactResource;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class ContactController extends Controller
+class ContactController extends Controller implements HasMiddleware
 {
+    public static function middleware() {
+        
+        /* More secure than putting middleware in functions or in web.php file, because any routes that are forgotten are caught by the tightest middleware (index) */ 
+        return [
+            'auth',
+            new Middleware('can:update,contact', only:['edit','update']),
+            new Middleware('can:index,' . Contact::class, except: ['edit','update','create','store']),
+        ];
+    }
+
     public function index(){
         
-        /* If I didn't want to sort columns, I could use a blade contacts index page (like indexContacts.blade.php) or the genericIndex blade as a really simple way to display a report that can be used for multiple models without making a blade (or Vue component) for each one */
+        /* If I didn't want to sort columns, I could use a blade contacts index page (like indexContacts.blade.php) or even the genericIndex blade as a really simple way to display a report that can be used for multiple models without making a blade (or Vue component) for each one */
         /*$export = (new ContactsExport);
         return view('genericIndex', [
             'title' => 'Contacts',
@@ -25,6 +37,7 @@ class ContactController extends Controller
 
         return Inertia::render('IndexContacts', [
             'title' => "Contacts",
+            'maxWidth' => 'max-w-4xl'
             //'styling' => (new ContactsExport)->extraClasses()->toArray(), // if using more dynamic inputs, could use styling to instruct classes on th and td
         ]);
     }
@@ -42,7 +55,7 @@ class ContactController extends Controller
         return ;
     }
 
-    public function show(){
+    public function show(Contact $contact){
         // to do
     }
 
@@ -78,7 +91,6 @@ class ContactController extends Controller
 
     public function destroy(Contact $contact){
         $contact->delete();
-
         return;
     }
 }

@@ -2,12 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
-use App\Models\Company;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Company;
 use App\Models\Contact;
-use Database\Factories\AddressFactory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Database\Factories\AddressFactory;
 use Database\Factories\ContactFactory;
 use Database\Factories\EmploymentFactory;
 
@@ -32,5 +34,17 @@ class DatabaseSeeder extends Seeder
         (new EmploymentFactory)->makeEmployments();
 
         (new AddressFactory)->addAddresses();
+
+        $u = User::create([
+            'name' => "Adison K",
+            'email' => 'adison@example.com',
+            'password' => Hash::make('password'), 
+        ]);
+
+        $r = Role::create([
+            'name' => 'contacts',
+            'displayName' => 'Contacts Admin',
+        ]);
+        $r->users()->attach($u);
     }
 }

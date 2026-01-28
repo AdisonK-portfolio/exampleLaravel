@@ -1,6 +1,9 @@
 <?php 
     if(!isset($maxWidth)){
-        $maxWidth = '';
+        $maxWidth = 'max-w-3xl';
+        if(isset($page['props']['maxWidth'])){
+            $maxWidth = $page['props']['maxWidth'];
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -53,7 +56,21 @@
         
         @include('layouts.navbar')
 
-        @inertia
+        <div class="sm:px-6 px-4">
+            
+            <div class="mx-auto {{ $maxWidth }} sm:my-6 my-4">
+                @if(isset($page['props']['title']))
+                    <h1 class="text-4xl text-bold"> {{ $page['props']['title'] }}</h1>
+                @endif
+            </div>
+            
+            
+            <div class="">
+                <div class="mx-auto block bg-white sm:p-6 xs:p-4 p-2 {{ $maxWidth }}">
+                    @inertia
+                </div>
+            </div>
+        </div>
            
     </body>
 </html>
