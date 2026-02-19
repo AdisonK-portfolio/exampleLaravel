@@ -1,7 +1,7 @@
 <template>
     
-    <div class="mx-auto block bg-white sm:p-6 xs:p-4 p-2 max-w-7xl">
-        <div class="px-2 md:px-4 my-2 sm:mb-4 mb-2  sm:flex sm:justify-between space-x-2 space-y-2">
+    <div class="mx-auto block bg-white sm:p-6 xs:p-4 p-2 w-full">
+        <div class="px-2 md:px-4 my-2 sm:mb-4 mb-2  sm:flex sm:justify-between space-x-2 space-y-2 w-full">
             <div class="flex space-x-0">
                 <input type="text" name="search" placeholder="Search for Contact" class="m-0" v-model="search" @keyup.enter="getContacts">
                 <button class="bg-primary p-2 text-white" @click="getContacts">
@@ -16,7 +16,7 @@
                 
             </div>
         </div>
-        <table class="table w-full">
+        <table class="table max-w-full overflow-auto">
             <thead>
                 <tr>
                     <!-- Playing with the idea of making this dynamic- could limit things later though -->
